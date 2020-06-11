@@ -1,0 +1,106 @@
+---
+title: "Mouthpieces"
+geometry:
+output: html_document
+---
+
+# Mouthpieces
+
+<div class = "row">
+<div class = "col-md-6">
+<b>J&D Hite Premiere (ID 1):</b> This is a modern student grade mouthpiece made of plastic. It is highly regarded as a good starter mouthpiece. This is a control sample mouthpiece.
+</div>
+<div class = "col-md-6">
+<img src="images/ID1 side.JPG" alt="id1" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> Theo Wanne Slant Signature 2: (ID2):</b> This is a modern mouthpiece made by one of the most highly regarded modern masters of mouthpiece design and fabrication. The “Slant Signature” refers to a particular era of vintage Otto Link Tone Edge with the Otto Link signature logo printed on a slanted angle. This mouthpiece is marketed as having all of the best characteristics of Theo’s favorite vintage “slant sigs” from his collection and experience, and additionally some Theo Wanne personal touches that make it superior to the original vintage pieces.
+</div>
+<div class = "col-md-6">
+<img src="images/ID2 side.JPG" alt="id2" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> Otto Link Tone Edge Straight Sig Modern (OLTE): (ID3):</b> This is a relatively inexpensive modern mouthpiece that is branded and looks nominally like a valuable vintage Otto Link Tone Edge, but is not regarded highly by today’s jazz musician.
+</div>
+<div class = "col-md-6">
+<img src="images/ID3 side.JPG" alt="id3" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> Otto Link Tone Edge Slant Signature Modern Retro: (ID4):</b> This mouthpiece is an attempt by the current owner of the Otto Link brand to bring fans of the vintage mouthpiece back to the modern brand. It is more similar to the vintage mouthpiece, but gets mixed reviews by most accounts.
+</div>
+<div class = "col-md-6">
+<img src="images/ID4 side.JPG" alt="id4" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> Jody Jazz HR*: (ID5):</b> This modern piece is a hybrid of a vintage tribute with some modern power added in. 
+</div>
+<div class = "col-md-6">
+<img src="images/ID5 side.JPG" alt="id5" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> Vandoren V16 T8: (ID6):</b> Vandoren is a popular brand of reed and ligature, and their mouthpieces are generally considered a good value. This piece is the closest reproduction of a vintage OLTE that Vandoren produces per their own advertising copy.
+</div>
+<div class = "col-md-6">
+<img src="images/ID6 side.JPG" alt="id6" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> Vintage Otto Link Reso Chamber: (ID7):</b> This piece was originally produced c.1940-1946, and refaced by Freddie Gregory (d.2014) in the 1990’s for a more modern level of projection and larger tip opening. This is a favorite from Brian’s personal collection, and is highly collectible due to rarity and reputation.
+</div>
+<div class = "col-md-6">
+<img src="images/ID7 side.jpg" alt="id7" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> Vintage Otto Link Reso Chamber JA Reface (ID8):</b> This piece was originally produced c.1940-1946 and as the original “Joe Allard” facing from the factory. This facing is significantly different than a typical collectable vintage jazz piece, and is included as a control. The material, mold shape, and age are identical to mouthpiece ID7.
+</div>
+<div class = "col-md-6">
+<img src="images/ID8 side.jpg" alt="id8" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> Vintage Otto Link Tone Edge Slant Signature EG reface: (ID9):</b> This is a highly desirable and collectable mouthpiece, consisting of a c.1950-1965 mouthpiece expertly opened from an original small tip opening to today’s typical jazz standard of 0.105* by Eric Greiffenhagen.
+</div>
+<div class = "col-md-6">
+<img src="images/ID9 side.jpg" alt="id9" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b>Ted Klum Tonamax (ID10):</b> This mouthpiece is highly regarded as one of the best modern reproductions of a classic OLTE with excellent craftmanship and quality control.
+</div>
+<div class = "col-md-6">
+<img src="images/ID10 side.JPG" alt="id10" width="100%" height="100%"/>
+</div>
+</div>
+
+<div class = "row">
+<div class = "col-md-6">
+<b> D’Addario Select Jazz (ID 11): </b> This is a new mouthpiece with the design intent of reproducing the best vintage mouthpieces similar to an OLTE with no hand intervention. Each mouthpiece is CNC machined from high quality hard rubber barstock with no hand finishing. This is generally regarded as a good value.
+</div>
+<div class = "col-md-6">
+<img src="images/ID11 side.JPG" alt="id11" width="100%" height="100%"/>
+</div>
+</div>

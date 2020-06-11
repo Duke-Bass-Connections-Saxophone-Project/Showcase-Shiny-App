@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591825477875.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "15D92522",
+    "lastKnownWriteTime" : 1591829310,
+    "last_content_update" : 1591829310702,
+    "path" : "/cloud/project/global.R",
+    "project_path" : "global.R",
+    "properties" : {
+        "cursorPosition" : "12,63",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

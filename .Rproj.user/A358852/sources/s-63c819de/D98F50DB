@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591829813244.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3219481007",
+    "id" : "D98F50DB",
+    "lastKnownWriteTime" : 1591830961,
+    "last_content_update" : 1591830961485,
+    "path" : "/cloud/project/modules/analysis/analysis-display.R",
+    "project_path" : "modules/analysis/analysis-display.R",
+    "properties" : {
+        "cursorPosition" : "93,50",
+        "scrollLine" : "84"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

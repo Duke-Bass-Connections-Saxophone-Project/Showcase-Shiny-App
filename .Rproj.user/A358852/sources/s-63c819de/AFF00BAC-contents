@@ -1,0 +1,30 @@
+archivePageOutput <- function(input,
+                              output,
+                              session,
+                              spectra_dir,
+                              stl_dir,
+                              spectra_table,
+                              audio_table,
+                              stl_table) {
+  moduleNames <- c("archive_display_1", "archive_display_2")
+  
+  callModule(
+    archiveDisplayOutput,
+    moduleNames[1],
+    spectra_dir,
+    stl_dir,
+    spectra_table,
+    audio_table,
+    stl_table
+  )
+  
+  callModule(
+    archiveDisplayOutput,
+    moduleNames[2],
+    spectra_dir,
+    stl_dir,
+    spectra_table,
+    audio_table,
+    stl_table
+  )
+}

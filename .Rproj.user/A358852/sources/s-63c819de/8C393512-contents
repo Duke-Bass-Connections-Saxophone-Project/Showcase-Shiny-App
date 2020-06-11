@@ -1,0 +1,41 @@
+---
+title: "Analysis Instructions"
+output: html_document
+---
+
+# Analysis Instructions
+
+The data visualization tool allows users to compare various quantitative variables from our survey and audio data between and among mouthpiece and player groups. 
+
+**X axis and Y axis:** The following is a data dictionary for the X and Y axis variables:
+
+* *brightness:* A mouthpiece brightness rating from 1 (very dark) to 10 (very bright) from the survey
+* *resistance:* A mouthpiece resistance rating from 1 (very free blowing) to 10 (very resistant) from the survey
+* *tuning:* A mouthpiece ease of tuning rating from 1 (frequent adjusting) to 10 (no adjusting) from the survey
+* *register_transitions:* A mouthpiece ease of register transitions rating from 1 (very difficult) to 10 (very easy) from the survey
+* *projection:* A mouthpiece projection rating from 1 (quietest) to 10 (loudest) from the survey
+* *pitch:* One of four pitches and their frequency in Hz (E165, A220, E330, A440)
+* *centroid:* Centroid frequency in Hz
+* *rolloff:* Roll-off frequency in Hz
+* *octave_tuning:* Average difference between 2*fundamental frequency and octave frequency in cents
+* *frequency_stdev:* Average frequency standard deviation in cents
+* *fundamental:* Scaled intensity of fundamental frequency in dB
+* *ot1:* Scaled intensity of first overtone peak in dB
+* *ot2:* Scaled intensity of second overtone peak in dB
+* *ot3:* Scaled intensity of third overtone peak in dB
+* *ot4:* Scaled intensity of fourth overtone peak in dB
+* *ot5:* Scaled intensity of fifth overtone peak in dB
+* *ot6:* Scaled intensity of sixth overtone peak in dB
+* *ot7:* Scaled intensity of seventh overtone peak in dB
+
+**Pitch:** Users may filter data for a certain pitch (only applicable to audio data). 
+
+**Group:** Users may group observations by either *player_id* or *mouthpiece_id*. This option changes the variable in the legend (the color of each individual point).
+
+**Facet:** Users may facet observations by either *player_id* or *mouthpiece_id*. This option changes the variable which determines the matrix of panels (the value at the top of each panel).
+
+**Filter Out Mouthpiece:** Users may filter out certain *mouthpiece_id*s. All *mouthpiece_id*s are displayed by default.
+
+**Filter Out Player:** Users may filter out certain *player_id*s. All *player_id*s are displayed by default.
+
+Users may notice, as we found, that the variation for certain statistics among individual players is less than that of the variation for certain statistics among individual mouthpieces. Though this cursory, visual analysis is neither statistically significant nor particularly scientific, it may suggest that the relative differences between players are greater than the differences between mouthpieces. Further research is necessary to fully characterize the differences between mouthpiece tone quality and its relation to physical features.

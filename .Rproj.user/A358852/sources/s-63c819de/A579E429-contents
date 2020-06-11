@@ -1,0 +1,28 @@
+---
+title: "Data Cleaning"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r read-xlsx}
+path <- "www/SC.xlsx"
+#lapply(excel_sheets(path), read_excel, path = path)
+for(sheet_name in excel_sheets(path)) {
+  sheet <- read_excel(path, sheet_name) %>%
+  pivot_longer(cols = c(E165, A220, E330, A440), names_to = "pitch") %>%
+  pivot_wider(names_from = info) %>%
+  mutate(playerID = "Dave Finucane", mouthpieceID = sheet_name)
+}
+```
+
+```{r cars}
+DF_7.1 <- read_csv("www/DF_7.1.csv")
+
+DF_7.1 %>%
+  pivot_longer(cols = c(E165, A220, E330, A440), names_to = "pitch") %>%
+  pivot_wider(names_from = info) %>%
+  mutate(mouthpieceplayer = "Dave Finucane")
+```

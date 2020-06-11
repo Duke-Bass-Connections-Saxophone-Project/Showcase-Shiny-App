@@ -1,0 +1,375 @@
+archiveDisplayInput <-
+  function(id) {
+    ns <- NS(id)
+    
+    tagList(
+      fluidRow(
+        style = "box-shadow: 0px 0px 10px grey; padding: 35px;",
+        column(
+          3,
+          selectizeInput(
+            ns('filter_mouthpiece'),
+            'Mouthpiece',
+            choices = NULL,
+            width = "100%"
+          ),
+          selectizeInput(
+            ns('filter_player'),
+            'Player ID',
+            choices = NULL,
+            width = "100%"
+          ),
+          selectizeInput(
+            ns('filter_pitch'),
+            'Pitch',
+            choices = NULL,
+            width = "100%"
+          ),
+          uiOutput(ns('audio'))
+        ),
+        column(
+          3,
+          rglwidgetOutput(ns('stl'), width = "100%", height = "300px") %>% withSpinner()
+        ),
+        column(6, plotOutput(
+          ns('spectra'), height = "300px", width = "100%"
+        ))
+      )
+    )
+  }
+
+archiveDisplayOutput <-
+  function(input,
+           output,
+           session,
+           spectra_dir,
+           stl_dir,
+           spectra_table,
+           audio_table,
+           stl_table) {
+    #-------------------- Update filter inputs --------------------
+    
+    # Updates mouthpiece input to display mouthpieces with
+    # integer IDs greater than 0
+    observe({
+      names <- spectra_table %>%
+        filter(!mouthpiece_id %% 1 & mouthpiece_id != 0) %>%
+        select(mouthpiece_name) %>%
+        arrange(mouthpiece_name) %>%
+        distinct() %>%
+        pull()
+      
+      updateSelectizeInput(session, 'filter_mouthpiece', choices = names)
+    })
+    
+    # Updates player input to display players for selected mouthpiece
+    observe({
+      players <- spectra_table %>%
+        filter(mouthpiece_name == input$filter_mouthpiece) %>%
+        select(player_id) %>%
+        unique() %>%
+        pull()
+      
+      updateSelectizeInput(session, 'filter_player', choices = players)
+    })
+    
+    # Updates pitch input to display pitches for selected mouthpiece and player
+    observe({
+      pitches <- spectra_table %>%
+        filter(mouthpiece_name == input$filter_mouthpiece,
+               player_id == input$filter_player) %>%
+        select(pitch) %>%
+        unique() %>%
+        pull()
+      
+      updateSelectizeInput(session, 'filter_pitch', choices = pitches)
+    })
+    
+    #-------------------- Validate mouthpiece --------------------
+    
+    # Given a table and mouthpiece name, validates that the mouthpiece
+    # exists and outputs its ID. Otherwise, returns an error message
+    
+    validate_mouthpiece_id_spectra <- reactive({
+      errorMessage <- "Spectrogram doesn't exist for the given mouthpiece"
+      
+      temp <- spectra_table %>%
+        filter(mouthpiece_name == input$filter_mouthpiece) %>%
+        select(mouthpiece_id) %>%
+        distinct() %>%
+        pull()
+      
+      validate(need(identical(length(temp), length(1)), errorMessage))
+      
+      temp
+    })
+    
+    validate_mouthpiece_id_stl <- reactive({
+      errorMessage <- "Scan doesn't exist for the given mouthpiece"
+      
+      temp <- stl_table %>%
+        filter(mouthpiece_name == input$filter_mouthpiece) %>%
+        select(mouthpiece_id) %>%
+        distinct() %>%
+        pull()
+      
+      validate(need(identical(length(temp), length(1)), errorMessage))
+      
+      temp
+    })
+    
+    #-------------------- Output spectra --------------------
+    
+    spectra_dataset <- reactive({
+      paste0(
+        spectra_dir,
+        input$filter_player,
+        "_",
+        validate_mouthpiece_id_spectra(),
+        "_",
+        input$filter_pitch,
+        ".csv"
+      ) %>%
+        read_csv(col_names = FALSE)
+    })
+    
+    output$spectra <- renderPlot({
+      spectra_dataset() %>%
+        mutate(x = 1:20000) %>%
+        rename(y = X1) %>%
+        filter(x <= 10000) %>%
+        ggplot(aes(x, y)) +
+        geom_line() +
+        labs(x = "",
+             y = "") +
+        theme_light() +
+        theme(
+          axis.title.y = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank()
+        )
+    })
+    
+    #-------------------- Output STL --------------------
+    
+    output$stl <- renderRglwidget({
+      rgl.clear("shapes")
+      model <- validate_mouthpiece_id_stl() %>%
+        paste0(stl_dir, ., ".stl") %>%
+        readSTL(col = 'darkgray')
+      bg3d(gray(level = 0.95))
+      rglwidget()
+    })
+    
+    #-------------------- Output audio --------------------
+
+    output$audio <- renderUI(tags$audio(
+      src = paste0(
+        "wav/",
+        input$filter_player,
+        "/",
+        validate_mouthpiece_id_spectra(),
+        "/",
+        input$filter_pitch,
+        ".wav"
+      ),
+      type = "audio/wav",
+      controls = NA
+    ))
+  }
+
+archivePageInput <- function(id, tabTitle) {
+  dropdownNames <- c("Instructions", "Audiovisual Media")
+  instructionsFilepath <- "www/markdown/archiveInstructions.Rmd"
+  archiveNoteText <-
+    "Note: Mouthpiece scans have been displayed at 1/150th of their original resolution.
+                      Mouthpiece scans and recording do not exist for some mouthpieces and players."
+  moduleNames <- c("archive_display_1", "archive_display_2")
+  
+  ns <- NS(id)
+  
+  navbarMenu(
+    tabTitle,
+    tabPanel(dropdownNames[1],
+             includeMarkdown(instructionsFilepath)),
+    tabPanel(
+      dropdownNames[2],
+      style = "padding:10px",
+      archiveModuleInput(moduleNames[1]),
+      archiveModuleInput(moduleNames[2]),
+      fluidRow(tags$i(archiveNoteText))
+    )
+  )
+}
+
+# archivePageOutput <- function(input,
+#                               output,
+#                               session,
+#                               spectra_dir,
+#                               stl_dir,
+#                               spectra_table,
+#                               audio_table,
+#                               stl_table) {
+#   moduleNames <- c("archive_display_1", "archive_display_2")
+#
+#   callModule(
+#     archiveDisplayOutput,
+#     moduleNames[1],
+#     spectra_dir,
+#     stl_dir,
+#     spectra_table,
+#     audio_table,
+#     stl_table
+#   )
+#
+#   callModule(
+#     archiveDisplayOutput,
+#     moduleNames[2],
+#     spectra_dir,
+#     stl_dir,
+#     spectra_table,
+#     audio_table,
+#     stl_table
+#   )
+# }
+
+# analysisDisplayInput <- function(id) {
+#   ns <- NS(id)
+#
+#   fluidRow(
+#     style = "box-shadow: 0px 0px 10px grey; padding: 35px;",
+#     column(
+#       3,
+#       selectizeInput(
+#         ns('filter_x'),
+#         'X Axis',
+#         choices = NULL,
+#         width = "100%"
+#       ),
+#       selectizeInput(
+#         ns('filter_y'),
+#         'Y Axis',
+#         choices = NULL,
+#         width = "100%"
+#       ),
+#       selectizeInput(ns('pitch'), 'Pitch', choices = NULL, width = "100%"),
+#       selectizeInput(ns('group'), 'Group', choices = NULL, width = "100%"),
+#       selectInput(
+#         ns('facet'),
+#         'Facet',
+#         choices = c(
+#           "none" = "none",
+#           "player_id" = "player_id",
+#           "mouthpiece_id" = "mouthpiece_id",
+#           "player_group" = "player_group"
+#         ),
+#         width = "100%"
+#       ),
+#       selectizeInput(
+#         ns('filter_out_mouthpieces'),
+#         'Filter Out Mouthpiece',
+#         choices = NULL,
+#         width = "100%",
+#         multiple = TRUE
+#       ),
+#       selectizeInput(
+#         ns('filter_out_players'),
+#         'Filter Out Player',
+#         choices = NULL,
+#         width = "100%",
+#         multiple = TRUE
+#       )
+#     ),
+#     column(9, plotOutput(ns('analysis'), height = "600px"))
+#   )
+# }
+#
+# analysisDisplayOutput <- function(input,
+#                                   output,
+#                                   session,
+#                                   analysis_table) {
+#   observe({
+#     filter_choices <-
+#       survey_audio %>% select(-player_id, -mouthpiece_id, -player_group) %>%
+#       colnames()
+#
+#     pitch_choices <- survey_audio$pitch %>%
+#       unique()
+#
+#     group_choices <- survey_audio %>%
+#       select(player_id, mouthpiece_id, player_group) %>%
+#       colnames()
+#
+#     mouthpiece_choices <- survey_audio %>%
+#       select(mouthpiece_id) %>%
+#       distinct()
+#
+#     player_choices <- survey_audio %>%
+#       select(player_id) %>%
+#       distinct()
+#
+#     updateSelectizeInput(session, 'filter_x', choices = filter_choices)
+#     updateSelectizeInput(session, 'filter_y', choices = filter_choices)
+#     updateSelectizeInput(session, 'pitch', choices = pitch_choices)
+#     updateSelectizeInput(session, 'group', choices = group_choices)
+#     updateSelectizeInput(session, 'facet', choices = group_choices)
+#     updateSelectizeInput(session, 'filter_out_mouthpieces', choices = mouthpiece_choices)
+#     updateSelectizeInput(session, 'filter_out_players', choices = player_choices)
+#   })
+#
+#   output$analysis <- renderPlot({
+#     facet_formula <- if (input$facet == "none") {
+#       facet_grid()
+#     } else {
+#       as.formula(paste("~", input$facet)) %>%
+#         facet_grid()
+#     }
+#
+#     survey_audio %>%
+#       filter(
+#         pitch == input$pitch,
+#         !(mouthpiece_id %in% input$filter_out_mouthpieces),
+#         !(player_id %in% input$filter_out_players)
+#       ) %>%
+#       mutate_at(c("player_id", "mouthpiece_id"), factor) %>%
+#       ggplot(aes_string(
+#         x = input$filter_x,
+#         y = input$filter_y,
+#         color = input$group
+#       )) +
+#       geom_point() +
+#       facet_formula
+#   })
+# }
+#
+# analysisPageInput <- function(id, tabTitle) {
+#   ns <- NS(id)
+#
+#   navbarMenu(
+#     tabTitle,
+#     tabPanel(
+#       "Instructions",
+#       includeMarkdown("www/markdown/visualizationInstructions.Rmd")
+#     ),
+#     tabPanel(
+#       "Data Visualization",
+#       callModule(analysisPageOutput, "analysis_display_1"),
+#       callModule(analysisPageOutput, "analysis_display_2")
+#     )
+#   )
+# }
+#
+# analysisPageOutput <- function(input,
+#                                output,
+#                                session,
+#                                analysis_table) {
+#   moduleNames <- c("analysis_display_1", "analysis_display_2")
+#
+#   callModule(analysisDisplayOutput,
+#              moduleNames[1],
+#              analysis_table)
+#
+#   callModule(analysisDisplayOutput,
+#              moduleNames[2],
+#              analysis_table)
+# }

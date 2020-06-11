@@ -1,0 +1,117 @@
+#
+# This is the server logic of a Shiny web application. You can run the
+# application by clicking 'Run App' above.
+#
+# Find out more about building applicatons with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+
+library(shiny)
+library(tidyverse)
+library(DT)
+
+# Define server logic required to draw a histogram
+shinyServer(function(input, output, session) {
+    csv_filepath <- "www/csv"
+    fit_filepath <- paste0(csv_filepath, "/fit")
+    other_filepath <- paste0(csv_filepath, "/other")
+    spectra_filepath <- paste0(csv_filepath, "/spectra/")
+    stl_filepath <- "www/stl"
+    
+    heatmap_datasets <- 
+        list.files(fit_filepath, full.names = TRUE) %>%
+        lapply(read_csv)
+    stl_filenames <- list.files(stl_filepath, full.names = TRUE)
+    
+    choice_matrix <- list.files(spectra_filepath) %>%
+        str_split("_", simplify = TRUE)
+    
+    #Display STL Files
+    output$rglWidget = renderRglwidget({
+        rgl.clear("shapes")
+        model <- readSTL(stl_filenames[1], col = 'darkgray')
+        bg3d(gray(level=0.95))
+        #add title
+        #look into modifying par3d
+        rglwidget()
+    })
+    
+    fitDatasetInput <- reactive({
+        temp <- data.frame(heatmap_datasets[[as.numeric(input$datasets)]])
+    })
+    
+    spectraDataSetInput <- reactive({
+        temp <- read_csv(paste0(spectra_filepath,
+                                input$filter_player, 
+                                "_", 
+                                input$filter_mouthpiece, 
+                                "_",
+                                input$filter_pitch,
+                                ".csv"), 
+                         col_names = FALSE) %>%
+            data.frame()
+    })
+    
+    
+    
+    observe({
+        unique_players <- choice_matrix %>%
+            .[,1] %>%
+            unique() %>%
+            as.numeric()
+        unique_mouthpieces <- choice_matrix %>%
+            .[,2] %>%
+            unique() %>%
+            as.numeric() %>%
+            sort()
+        updateSelectizeInput(session, 'filter_player', choices = unique_players)
+    })
+    
+    observe({
+        unique_mouthpieces <- choice_matrix %>%
+            subset(.[,1] == input$filter_player) %>%
+            .[,2] %>%
+            unique() %>%
+            as.numeric() %>%
+            sort()
+        updateSelectizeInput(session, 'filter_mouthpiece', choices = unique_mouthpieces)
+    })
+    
+    observe({
+        updateSelectizeInput(session, 'filter_feature_x', choices = fitDatasetInput()$feature_x_group %>% unique(), server = TRUE)
+        updateSelectizeInput(session, 'filter_feature_y', choices = fitDatasetInput()$feature_y_group %>% unique(), server = TRUE)
+    })
+    
+    output$heatmap <- renderPlot({
+        plot <- fitDatasetInput() %>% 
+            filter(feature_x_group %in% input$filter_feature_x,
+                   feature_y_group %in% input$filter_feature_y) %>%
+            ggplot(aes(x = feature_x, y = feature_y, fill = value)) +
+            geom_tile() +
+            scale_fill_gradient(low="white", high="blue") +
+            labs(title = "Values Between Features") +
+            theme(axis.text.x = element_text(angle = 90))        
+        print(plot)
+    })
+    
+    #cutoff at 10000hz
+    #put picture next to menu
+    #or audio next to raw data
+    output$spectra <- renderPlot({
+        plot <- spectraDataSetInput() %>%
+            mutate(x = 1:20000) %>% 
+            rename(y = X1) %>%
+            ggplot(aes(x, y)) +
+            geom_line() +
+            labs(title = "Spectrum of A220", 
+                 subtitle = "player id 1 - mouthpiece id 0", 
+                 x = "", 
+                 y = "") +
+            theme_light() +
+            theme(axis.title.y=element_blank(),
+                  axis.text.y=element_blank(),
+                  axis.ticks.y=element_blank())
+        print(plot)
+    })
+})

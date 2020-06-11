@@ -1,0 +1,173 @@
+#
+# This is the user-interface definition of a Shiny web application. You can
+# run the application by clicking 'Run App' above.
+#
+# Find out more about building applications with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+
+library(shiny)
+library(shinythemes)
+library(rgl)
+library(shinyRGL)
+library(readobj)
+library(shinycssloaders)
+library(rmarkdown)
+
+
+# First tab should be about motivation (mouthpiece pictures)
+# Buttons back and forth between tabs or scroll
+# Re run script and upload data again
+# Audio files
+# Spectra auto 
+# 1 minute recording
+
+project_title <- "The Art and Craft of Saxophone Mouthpiece Design"
+
+project_window_title <- "Duke University Bass Connections - The Art and Craft of Saxophone Mouthpiece Design"
+
+tab_titles <- c("Project", "Background", "Media Archive", "Analysis")
+
+project_tab_titles <- c("Motivation", "Workflow", "Conclusions", "Poster")
+
+background_tab_titles <- c("History", "Materials and Manufacturing", "Dimensions", "Glossary")
+
+# Define UI for application that draws a histogram
+shinyUI(
+  navbarPage(
+    title = div(
+      img(
+        src = 'images/bass-connections-logo.png',
+        style = "margin-top: -5px; padding-right:5px;padding-bottom:0px",
+        height = 30
+      ),
+      project_title
+    ),
+    windowTitle = project_window_title,
+    navbarMenu(
+      tab_titles[1],
+      tabPanel(
+        project_tab_titles[1],
+        includeHTML("www/markdown/history.nb.html")
+      ),
+      tabPanel(project_tab_titles[2], includeMarkdown("www/markdown/workflow.Rmd")),
+      tabPanel(
+        project_tab_titles[3],
+        includeMarkdown("www/markdown/conclusions.Rmd")
+      ),
+      tabPanel(
+        project_tab_titles[4],
+        tags$iframe(style = "height:600px; width:100%; scrolling=yes",
+                    src = "poster.pdf")
+      )
+    ),
+    navbarMenu(
+      tab_titles[2],
+      tabPanel(background_tab_titles[1], 
+               includeHTML("www/markdown/history.nb.html")),
+      tabPanel(
+        background_tab_titles[2],
+        includeMarkdown("www/markdown/materials.Rmd")
+      ),
+      tabPanel(
+        background_tab_titles[3],
+        includeMarkdown("www/markdown/dimensions.Rmd")
+      ),
+      tabPanel(background_tab_titles[4], includeMarkdown("www/markdown/glossary.Rmd"))
+    ),
+    tabPanel(
+      tab_titles[3],
+      fluidRow(
+        column(3,
+               selectizeInput('filter_mouthpiece', 'Mouthpiece', choices = NULL, width = "100%"),
+               selectizeInput('filter_player', 'Player ID', choices = NULL, width = "100%"),
+               selectizeInput('filter_pitch', 'Pitch', choices = NULL, width = "100%"),
+               uiOutput('audio'),
+               tags$i("Note: Mouthpiece scans have been displayed at 1/150th of their original resolution.
+                      Mouthpiece scans and recording do not exist for some mouthpieces and players.")),
+        column(1, rglwidgetOutput('stl', width = "400px", height = "400px") %>% withSpinner()),
+        column(5, plotOutput('spectra', height = "400px"), offset = 3)
+      )
+    ),
+    tabPanel(tab_titles[4],
+             plotOutput('analysis1'),
+             plotOutput('analysis2')),
+    # tabsetPanel(
+    #   tabPanel("Summary"),
+    #   "----",
+    #   "Section header",
+    #   tabPanel("Table"),
+    #   navbarMenu(
+    #     "Even more",
+    #     tabPanel("whatever")
+    #     type = "tabs",
+    #     tabPanel("Plot", includeMarkdown("about.Rmd")),
+    #     tabPanel("Summary", includeMarkdown("about.Rmd")),
+    #     tabPanel("Table", includeMarkdown("about.Rmd"))
+    #   )
+    # ),
+    # #fluidRow(
+    # #column(6, includeMarkdown("about.Rmd")),
+    # #column(3, tags$img(src='saxophone-fb-v2.jpg', width='auto', height='100%')))),
+    # #tabPanel(
+    #  # "Audio",
+    #  # tags$audio(
+    #     #src = "sound.wav",
+    #     #type = "audio/wav",
+    #   #  autoplay = NA,
+    #   #  controls = NA
+    #  # )
+    # #),
+    # tabPanel(
+    #   "3D Models",
+    #   rglwidgetOutput("rglWidget", width = "100%") %>% withSpinner()
+    # ),
+    # tabPanel(
+    #   title = "Raw Data",
+    #   selectizeInput('filter_player', 'Player', choices = NULL),
+    #   selectizeInput('filter_mouthpiece', 'Mouthpiece', choices = NULL),
+    #   selectizeInput(
+    #     'filter_pitch',
+    #     'Pitch',
+    #     choices = c("E165", "A220", "E330", "A440")
+    #   ),
+    #   plotOutput("spectra")
+    # ),
+    # #multiselect players and mouthpieces
+    # #dropdown for x and y axis
+    # #join audio and survey results as options
+    # tabPanel(
+    #   title = "Analysis",
+    #   selectInput(
+    #     "datasets",
+    #     "Dataset:",
+    #     c(
+    #       "P Values" = "1",
+    #       "R Squared" = "2",
+    #       "Slope" = "3"
+    #     )
+    #   ),
+    #   selectizeInput(
+    #     'filter_feature_x',
+    #     'Filter feature_x:',
+    #     choices = NULL,
+    #     multiple = TRUE
+    #   ),
+    #   selectizeInput(
+    #     'filter_feature_y',
+    #     'Filter feature_y:',
+    #     choices = NULL,
+    #     multiple = TRUE
+    #   ),
+    #   plotOutput("heatmap")
+    # ),
+    theme = "css/bootstrap.css",
+    #shinytheme(theme = "flatly")#"bootstrap.css"
+    tags$head(tags$style(
+      HTML(
+        '.tab-content {margin-top:.25in;margin-bottom:1in;margin-left:1in;margin-right:1in}'
+      )
+    ))
+  )
+)

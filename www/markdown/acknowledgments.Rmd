@@ -1,0 +1,21 @@
+---
+title: "Acknowledgments"
+geometry:
+output: html_document
+---
+
+# Acknowledgments
+
+We would like to acknowledge the following people and organizations:
+
+Brian Curry for loaning us the vintage mouthpieces and participating in the recording sessions/survey.
+
+Justin Gladman for help with microCT scanning and 3D printing.
+
+Duke SMIF for their facilities and financial assistance through SUUP.
+
+The other local musicians who participated in our recording sessions: Steve Cowles, Jill Jones, Matthew Tedesco, Dave Finucane, and Liam Trawick.
+
+Benjamin Lu (Pratt 2022) for informal contributions during the early stages of this project.
+
+Bass Connections for funding this research project.

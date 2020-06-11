@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1591830809448.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "E27972D9",
+    "lastKnownWriteTime" : 1591829488,
+    "last_content_update" : 1591829488,
+    "path" : "/cloud/project/modules/archive/archive.R",
+    "project_path" : "modules/archive/archive.R",
+    "properties" : {
+        "cursorPosition" : "13,31",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

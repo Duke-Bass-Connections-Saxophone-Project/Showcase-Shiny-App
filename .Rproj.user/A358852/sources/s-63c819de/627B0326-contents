@@ -1,0 +1,342 @@
+#
+# This is the server logic of a Shiny web application. You can run the
+# application by clicking 'Run App' above.
+#
+# Find out more about building applicatons with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+
+library(shiny)
+library(tidyverse)
+library(DT)
+
+shinyServer(function(input, output, session) {
+    #-------------------- Read Data --------------------
+    
+    csv_filepath <- "www/csv"
+    wav_filepath <- "www/wav"
+    stl_filepath <- "www/stl/"
+    
+    fit_filepath <- paste0(csv_filepath, "/fit/")
+    other_filepath <- paste0(csv_filepath, "/other/")
+    spectra_filepath <- paste0(csv_filepath, "/spectra/")
+    mouthpiece_filepath <- paste0(other_filepath, "mouthpiece.csv")
+    survey_filepath <- paste0(other_filepath, "survey.csv")
+    audio_filepath <- paste0(other_filepath, "audio.csv")
+    
+    mouthpiece <- read_csv(mouthpiece_filepath)
+    survey <- read_csv(survey_filepath)
+    audio <- read_csv(audio_filepath)
+    
+    spectra_filenames <-
+        list.files(spectra_filepath, full.names = TRUE)
+    stl_filenames <- list.files(stl_filepath, full.names = TRUE)
+    wav_filenames <-
+        list.files(wav_filepath,
+                   full.names = TRUE,
+                   recursive = TRUE)
+    
+    #-------------------- Create Tables --------------------
+    
+    spectra_table <- list.files(spectra_filepath) %>%
+        str_split("_", simplify = TRUE) %>%
+        as_tibble() %>%
+        rename(player_id = V1,
+               mouthpiece_id = V2,
+               pitch = V3) %>%
+        mutate_at(c("player_id", "mouthpiece_id"), as.numeric) %>%
+        left_join(mouthpiece, by = "mouthpiece_id") %>%
+        mutate(mouthpiece_name = paste(make, model),
+               pitch = str_replace(pitch, ".csv", "")) %>%
+        select(player_id, mouthpiece_name, mouthpiece_id, pitch)
+    
+    stl_table <- stl_filenames %>%
+        str_extract_all("\\d+", simplify = TRUE) %>%
+        unlist() %>%
+        as_tibble() %>%
+        rename(mouthpiece_id = V1) %>%
+        mutate(mouthpiece_id = as.numeric(mouthpiece_id)) %>%
+        left_join(mouthpiece, by = "mouthpiece_id") %>%
+        mutate(mouthpiece_name = paste(make, model)) %>%
+        select(mouthpiece_id, mouthpiece_name)
+    
+    wav_table <- wav_filenames %>%
+        str_split("/", simplify = TRUE) %>%
+        as_tibble() %>%
+        select(V3:V5) %>%
+        rename(player_id = V3,
+               mouthpiece_id = V4,
+               pitch = V5) %>%
+        mutate_at(c("player_id", "mouthpiece_id"), as.numeric) %>%
+        mutate(pitch = str_replace(pitch, ".wav", ""))
+    
+    #-------------------- Media Archive Inputs --------------------
+    
+    observe({
+        names <- spectra_table %>%
+            filter(!mouthpiece_id %% 1 & mouthpiece_id != 0) %>%
+            select(mouthpiece_name) %>%
+            arrange(mouthpiece_name) %>%
+            distinct() %>%
+            pull()
+        
+        updateSelectizeInput(session, 'filter_mouthpiece_1', choices = names)
+        updateSelectizeInput(session, 'filter_mouthpiece_2', choices = names)
+    })
+    
+    observe({
+        players_1 <- spectra_table %>%
+            filter(mouthpiece_name == input$filter_mouthpiece_1) %>%
+            select(player_id) %>%
+            unique() %>%
+            pull()
+        
+        players_2 <- spectra_table %>%
+            filter(mouthpiece_name == input$filter_mouthpiece_2) %>%
+            select(player_id) %>%
+            unique() %>%
+            pull()
+        
+        updateSelectizeInput(session, 'filter_player_1', choices = players_1)
+        updateSelectizeInput(session, 'filter_player_2', choices = players_2)
+    })
+    
+    observe({
+        pitches_1 <- spectra_table %>%
+            filter(
+                mouthpiece_name == input$filter_mouthpiece_1,
+                player_id == input$filter_player_1
+            ) %>%
+            select(pitch) %>%
+            unique() %>%
+            pull()
+        
+        pitches_2 <- spectra_table %>%
+            filter(
+                mouthpiece_name == input$filter_mouthpiece_2,
+                player_id == input$filter_player_2
+            ) %>%
+            select(pitch) %>%
+            unique() %>%
+            pull()
+        
+        updateSelectizeInput(session, 'filter_pitch_1', choices = pitches_1)
+        updateSelectizeInput(session, 'filter_pitch_2', choices = pitches_2)
+    })
+    
+    audio_validate <- function(filter_mouthpiece) {
+        temp <- spectra_table %>%
+            filter(mouthpiece_name == filter_mouthpiece) %>%
+            select(mouthpiece_id) %>%
+            distinct() %>%
+            pull()
+        validate(need(
+            identical(length(temp), length(1)),
+            "Recording doesn't exist for the given mouthpiece"
+        ))
+        temp
+    }
+    
+    audio_mouthpiece_id_1 <- reactive({
+        audio_validate(input$filter_mouthpiece_1)
+    })
+    
+    audio_mouthpiece_id_2 <- reactive({
+        audio_validate(input$filter_mouthpiece_2)
+    })
+    
+    spectra_dataset <-
+        function(filter_mouthpiece,
+                 filter_player,
+                 filter_pitch) {
+            temp <- read_csv(
+                paste0(
+                    spectra_filepath,
+                    filter_player,
+                    "_",
+                    filter_mouthpiece,
+                    "_",
+                    filter_pitch,
+                    ".csv"
+                ),
+                col_names = FALSE
+            ) %>%
+                data.frame()
+        }
+    
+    spectra_dataset_1 <- reactive({
+        spectra_dataset(audio_mouthpiece_id_1(),
+                        input$filter_player_1,
+                        input$filter_pitch_1)
+    })
+    
+    spectra_dataset_2 <- reactive({
+        spectra_dataset(audio_mouthpiece_id_2(),
+                        input$filter_player_2,
+                        input$filter_pitch_2)
+    })
+    
+    stl_validate <- function(filter_mouthpiece) {
+        temp <- stl_table %>%
+            filter(mouthpiece_name == filter_mouthpiece) %>%
+            select(mouthpiece_id) %>%
+            distinct() %>%
+            pull()
+        validate(need(
+            identical(length(temp), length(1)),
+            "Scan doesn't exist for the given mouthpiece"
+        ))
+        temp
+    }
+    
+    stl_mouthpiece_id_1 <- reactive({
+        stl_validate(input$filter_mouthpiece_1)
+    })
+    
+    stl_mouthpiece_id_2 <- reactive({
+        stl_validate(input$filter_mouthpiece_2)
+    })
+    
+    #-------------------- Displaying Spectra --------------------
+    
+    plot_spectra <- function(data) {
+        data %>%
+            mutate(x = 1:20000) %>%
+            rename(y = X1) %>%
+            filter(x <= 10000) %>%
+            ggplot(aes(x, y)) +
+            geom_line() +
+            labs(x = "",
+                 y = "") +
+            theme_light() +
+            theme(
+                axis.title.y = element_blank(),
+                axis.text.y = element_blank(),
+                axis.ticks.y = element_blank()
+            )
+    }
+    
+    output$spectra_1 <- renderPlot({
+        plot_spectra(spectra_dataset_1())
+    })
+    
+    output$spectra_2 <- renderPlot({
+        plot_spectra(spectra_dataset_2())
+    })
+    
+    #-------------------- Displaying STLs --------------------
+    
+    output_stl <- function(data) {
+        temp_file <- data %>%
+            paste0(stl_filepath, ., ".stl")
+        rgl.clear("shapes")
+        model <- readSTL(temp_file, col = 'darkgray')
+        bg3d(gray(level = 0.95))
+        rglwidget()
+    }
+    
+    output$stl_1 = renderRglwidget({
+        output_stl(stl_mouthpiece_id_1())
+    })
+    
+    output$stl_2 = renderRglwidget({
+        output_stl(stl_mouthpiece_id_2())
+    })
+    
+    #-------------------- Displaying Audio --------------------
+
+    output$audio_1 <- renderUI(tags$audio(
+        src = paste0(
+            "wav/",
+            input$filter_player_1,
+            "/",
+            audio_mouthpiece_id_1(),
+            "/",
+            input$filter_pitch_1,
+            ".wav"
+        ),
+        type = "audio/wav",
+        controls = NA
+    ))
+
+    output$audio_2 <- renderUI(tags$audio(
+        src = paste0(
+            "wav/",
+            input$filter_player_2,
+            "/",
+            audio_mouthpiece_id_2(),
+            "/",
+            input$filter_pitch_2,
+            ".wav"
+        ),
+        type = "audio/wav",
+        controls = NA
+    ))
+    
+    #-------------------- Displaying Analysis Input --------------------
+    
+    survey_audio <- survey %>%
+        right_join(audio, by = c("player_id", "mouthpiece_id")) %>%
+        select(-date)
+
+    observe({
+        filter_choices <-
+            survey_audio %>% select(-player_id,-mouthpiece_id) %>% colnames()
+        pitch_choices <- survey_audio$pitch %>% unique()
+        group_choices <-
+            survey_audio %>% select(player_id, mouthpiece_id) %>% colnames()
+
+        updateSelectizeInput(session, 'filter_x_1', choices = filter_choices)
+        updateSelectizeInput(session, 'filter_y_1', choices = filter_choices)
+        updateSelectizeInput(session, 'pitch_1', choices = pitch_choices)
+        updateSelectizeInput(session, 'group_1', choices = group_choices)
+        updateSelectizeInput(session, 'facet_1', choices = group_choices)
+    })
+
+    observe({
+        filter_choices <-
+            survey_audio %>% select(-player_id,-mouthpiece_id) %>% colnames()
+        pitch_choices <- survey_audio$pitch %>% unique()
+        group_choices <-
+            survey_audio %>% select(player_id, mouthpiece_id) %>% colnames()
+
+        updateSelectizeInput(session, 'filter_x_2', choices = filter_choices)
+        updateSelectizeInput(session, 'filter_y_2', choices = filter_choices)
+        updateSelectizeInput(session, 'pitch_2', choices = pitch_choices)
+        updateSelectizeInput(session, 'group_2', choices = group_choices)
+        updateSelectizeInput(session, 'facet_2', choices = group_choices)
+    })
+
+    output$analysis_1 <- renderPlot({
+        plot <- survey_audio %>%
+            filter(pitch == input$pitch_1) %>%
+            mutate_at(c("player_id", "mouthpiece_id"), factor) %>%
+            ggplot(aes_string(
+                x = input$filter_x_1,
+                y = input$filter_y_1,
+                color = input$group_1
+            )) +
+            geom_point() +
+            facet_grid(as.formula(paste("~", input$facet_1)))
+        print(plot)
+    })
+
+    output$analysis_2 <- renderPlot({
+        plot <- survey_audio %>%
+            filter(pitch == input$pitch_2) %>%
+            mutate_at(c("player_id", "mouthpiece_id"), factor) %>%
+            ggplot(aes_string(
+                x = input$filter_x_2,
+                y = input$filter_y_2,
+                color = input$group_2
+            )) +
+            geom_point() +
+            facet_grid(as.formula(paste("~", input$facet_2)))
+        print(plot)
+    })
+    
+    output$datatable <- renderDT(
+        read_csv(input$data)
+    )
+})

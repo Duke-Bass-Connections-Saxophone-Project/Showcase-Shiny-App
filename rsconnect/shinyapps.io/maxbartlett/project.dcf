@@ -1,0 +1,12 @@
+name: project
+title:
+username:
+account: maxbartlett
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 2095701
+bundleId: 3224354
+url: https://maxbartlett.shinyapps.io/project/
+when: 1591206174.9684
+asMultiple: FALSE
+asStatic: FALSE

@@ -1,0 +1,105 @@
+analysisDisplayInput <- function(id) {
+  ns <- NS(id)
+  
+  tagList(
+    fluidRow(
+      style = "box-shadow: 0px 0px 10px grey; padding: 35px;",
+      column(
+        3,
+        selectizeInput(ns('filter_x'),
+                       'X Axis',
+                       choices = NULL,
+                       width = "100%"),
+        selectizeInput(ns('filter_y'),
+                       'Y Axis',
+                       choices = NULL,
+                       width = "100%"),
+        selectizeInput(ns('pitch'), 'Pitch', choices = NULL, width = "100%"),
+        selectizeInput(ns('group'), 'Group', choices = NULL, width = "100%"),
+        selectInput(
+          ns('facet'),
+          'Facet',
+          choices = c(
+            "none" = "none",
+            "player_id" = "player_id",
+            "mouthpiece_id" = "mouthpiece_id",
+            "player_group" = "player_group"
+          ),
+          width = "100%"
+        ),
+        selectizeInput(
+          ns('filter_out_mouthpieces'),
+          'Filter Out Mouthpiece',
+          choices = NULL,
+          width = "100%",
+          multiple = TRUE
+        ),
+        selectizeInput(
+          ns('filter_out_players'),
+          'Filter Out Player',
+          choices = NULL,
+          width = "100%",
+          multiple = TRUE
+        )
+      ),
+      column(9, plotOutput(ns('analysis'), height = "600px"))
+    ))
+}
+
+analysisDisplayOutput <- function(input,
+                                  output,
+                                  session,
+                                  analysis_table) {
+  observe({
+    filter_choices <-
+      analysis_table %>% select(-player_id, -mouthpiece_id, -player_group) %>%
+      colnames()
+    
+    pitch_choices <- analysis_table$pitch %>%
+      unique()
+    
+    group_choices <- analysis_table %>%
+      select(player_id, mouthpiece_id, player_group) %>%
+      colnames()
+    
+    mouthpiece_choices <- analysis_table %>%
+      select(mouthpiece_id) %>%
+      distinct()
+    
+    player_choices <- analysis_table %>%
+      select(player_id) %>%
+      distinct()
+    
+    updateSelectizeInput(session, 'filter_x', choices = filter_choices)
+    updateSelectizeInput(session, 'filter_y', choices = filter_choices)
+    updateSelectizeInput(session, 'pitch', choices = pitch_choices)
+    updateSelectizeInput(session, 'group', choices = group_choices)
+    updateSelectizeInput(session, 'facet', choices = group_choices)
+    updateSelectizeInput(session, 'filter_out_mouthpieces', choices = mouthpiece_choices)
+    updateSelectizeInput(session, 'filter_out_players', choices = player_choices)
+  })
+  
+  output$analysis <- renderPlot({
+    facet_formula <- if (input$facet == "none") {
+      facet_grid()
+    } else {
+      as.formula(paste("~", input$facet)) %>%
+        facet_grid()
+    }
+    
+    analysis_table %>%
+      filter(
+        pitch == input$pitch,
+        !(mouthpiece_id %in% input$filter_out_mouthpieces),
+        !(player_id %in% input$filter_out_players)
+      ) %>%
+      mutate_at(c("player_id", "mouthpiece_id"), factor) %>%
+      ggplot(aes_string(
+        x = input$filter_x,
+        y = input$filter_y,
+        color = input$group
+      )) +
+      geom_point() +
+      facet_formula
+  })
+}

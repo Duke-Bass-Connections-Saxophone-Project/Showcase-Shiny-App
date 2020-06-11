@@ -1,0 +1,31 @@
+analysisPageInput <- function(id, tabTitle) {
+  ns <- NS(id)
+  
+  navbarMenu(
+    tabTitle,
+    tabPanel(
+      "Instructions",
+      includeMarkdown("www/markdown/visualizationInstructions.Rmd")
+    ),
+    tabPanel(
+      "Data Visualization",
+      callModule(analysisPageOutput, "analysis_display_1"),
+      callModule(analysisPageOutput, "analysis_display_2")
+    )
+  )
+}
+
+analysisPageOutput <- function(input,
+                               output,
+                               session,
+                               analysis_table) {
+  moduleNames <- c("analysis_display_1", "analysis_display_2")
+  
+  callModule(analysisDisplayOutput,
+             moduleNames[1],
+             analysis_table)
+  
+  callModule(analysisDisplayOutput,
+             moduleNames[2],
+             analysis_table)
+}

@@ -1,0 +1,13 @@
+---
+title: "Abstract"
+geometry:
+output: html_document
+---
+
+# Abstract
+
+Many professional jazz saxophonists and aspirational amateurs play on vintage mouthpieces produced in the mid-20th century. These mouthpieces are increasingly rare and valuable as a result. Some of these mouthpiece manufacturers are still in production, but the ownership and manufacturing facilities have evolved to reduce costs and are generally regarded as inferior. Boutique makers produce reproductions, and some are quite good, but the vintage pieces are still more desirable.
+
+Traditional measurement techniques archive necessary but insufficient detail required to produce a consistent mouthpiece. The “intangibles” have been attributed to many things, but are most likely due to artisan craftsmanship that attains higher precision and repeatability than is easily measured dimensionally, or unique material properties, or a combination of both.
+
+This project attempts to quantify dimensional and material differences in a sample set of valuable vintage mouthpieces, modern mediocre copies, high quality modern copies, and a few control pieces. The end goal is to build a digital library of iconic classic mouthpieces and the craftsmanship of the great hand finishers, and to reproduce these pieces faithfully using modern precision fabrication techniques.

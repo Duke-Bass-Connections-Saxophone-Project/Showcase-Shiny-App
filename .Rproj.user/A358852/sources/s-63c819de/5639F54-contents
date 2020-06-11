@@ -1,0 +1,53 @@
+#
+# This is the user-interface definition of a Shiny web application. You can
+# run the application by clicking 'Run App' above.
+#
+# Find out more about building applications with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+
+library(shiny)
+library(shinythemes)
+library(rgl)
+library(shinyRGL)
+library(readobj)
+library(shinycssloaders)
+
+# Define UI for application that draws a histogram
+shinyUI(
+    navbarPage(title = "The Art and Craft of Saxophone Mouthpiece Design",
+               tabPanel(
+                 title = "Team Profile",
+                 fluidRow(
+                   column(6, includeMarkdown("about.Rmd")),
+                   column(3, tags$img(src='saxophone-fb-v2.jpg', width='auto', height='100%')))),
+               tabPanel("Audio",
+                        tags$audio(src = "sound.wav", type = "audio/wav", autoplay = NA, controls = NA)),
+               tabPanel("3D Models",
+                        rglwidgetOutput("rglWidget", width="100%") %>% withSpinner()),
+               tabPanel("Raw Data",
+                        selectizeInput(
+                          'filter_player', 'Player', choices = NULL),
+                        selectizeInput(
+                          'filter_mouthpiece', 'Mouthpiece', choices = NULL),
+                        selectizeInput('filter_pitch', 'Pitch', choices = c("E165", "A220", "E330", "A440")),
+                        plotOutput("spectra")
+               ),
+               #multiselect players and mouthpieces
+               #dropdown for x and y axis
+               #join audio and survey results as options
+               tabPanel("Analysis",
+                        selectInput("datasets", "Dataset:",
+                                    c("P Values" = "1",
+                                      "R Squared" = "2",
+                                      "Slope" = "3")),
+                        selectizeInput(
+                          'filter_feature_x', 'Filter feature_x:', choices = NULL, multiple = TRUE),
+                        selectizeInput(
+                          'filter_feature_y', 'Filter feature_y:', choices = NULL, multiple = TRUE),
+                        plotOutput("heatmap")),
+               theme = shinytheme("flatly")
+               #tags$head(tags$style( HTML('.tab-content {margin-left:50px;}')))
+    )
+)

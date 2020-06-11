@@ -1,0 +1,41 @@
+---
+title: "About"
+geometry:
+output: html_document
+---
+
+## Background
+
+Many professional jazz saxophonists and aspirational amateurs play on vintage mouthpieces produced in the mid-20th century. These mouthpieces were hand-finished and test-played by craftsman-musicians known as refacers, the vast majority of whom are deceased.
+
+Because mouthpieces are wear items and susceptible to accidental damage, these vintage mouthpieces are increasingly rare and valuable. Boutique makers produce reproductions, and some are quite good, but the vintage pieces are still more desirable.
+
+Modern mouthpieces are generally machine-finished and produce reliable but inferior products. Traditional measurement techniques archive necessary but insufficient detail required to produce a high-quality mouthpiece. The “intangibles” have been attributed to many things but are most likely due to features of artisan craftsmanship that are not easily measured quantitatively, unique material properties or some combination of the above.
+
+## Project Description
+
+The primary goal of this Bass Connections project will be to digitally archive the dimensional and material property differences between nominally similar vintage and reproduction mouthpieces to document the differences in playability and tonal character of these mouthpieces.
+
+The use of modern measurement techniques will allow this project to build large datasets of quantitative information on increasingly rare vintage mouthpieces. If great examples can be digitized and eventually reproduced with modern fabrication techniques, this can provide affordable access to future generations of saxophone players who are increasingly interested in preserving and reproducing sounds from the golden era of the saxophone (c. 1920-1974).
+
+A secondary goal of the project is to evaluate the effectiveness of modern low-cost manufacturing techniques in faithfully reproducing a vintage saxophone mouthpiece.
+
+Mouthpieces to be studied include vintage pieces from the personal collection of Brian Curry of getasax.com (also a current Duke Divinity School Ph.D. student) as well as reproduction, revival, 3D-printed and machine-reproduced pieces.
+
+In the first phase of the project, team members will measure the physical dimensions of each mouthpiece using traditional tools and the Shared Materials Instrumentation Facility (SMIF) microCT scanner. The 3D geometry will be parameterized to determine correlations between shape, material properties and player preferences. The measured 3D geometry will also be processed for 3D printing at SMIF and machined from hard rubber bar stock. These reproductions will then be measured to assess the quality of reproduction process.
+
+In the second phase, team members will collect evaluations of all mouthpieces by a panel of professional, student and hobbyist musicians. Players will be interviewed and answer a prepared set of questions to describe their playing experience with each mouthpiece. The test playing will be recorded for use in further studies quantifying the relationship between player questionnaire responses and recorded harmonic structure.
+
+The key result of this project will be a digital archive of saxophone mouthpiece characteristics and player evaluations, with emphasis on the reproducibility of features observed in a custom refaced vintage example. If the team’s reproduction is successful in achieving high evaluations of playability, it could become a commercially available product or serve the purpose of preserving the legacy of great refacers. The data collected in this process will also be useful in directing future research.
+
+## Anticipated Outputs
+
+Digital archive of saxophone mouthpiece characteristics and player evaluations; datasets for future research
+
+## Timing
+
+Summer 2019 – Spring 2020
+
+* **Summer 2019 (Optional):** Begin SMIF measurements and database development
+* **Fall 2019:** Continue SMIF measurements and database development; begin musical evaluation and report writing; begin mouthpiece reproduction
+* **Spring 2020:** Continue musical evaluation and report writing; continue mouthpiece reproduction

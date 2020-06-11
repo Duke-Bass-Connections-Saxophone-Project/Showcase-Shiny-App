@@ -1,0 +1,11 @@
+library(tidyverse)
+library(shiny)
+library(shinythemes)
+library(rgl)
+library(shinyRGL)
+library(readobj)
+library(shinycssloaders)
+library(rmarkdown)
+
+list.files("modules", full.names=TRUE, recursive=TRUE) %>%
+  lapply(source)

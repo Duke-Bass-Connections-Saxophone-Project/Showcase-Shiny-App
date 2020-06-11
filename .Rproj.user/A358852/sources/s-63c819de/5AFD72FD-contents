@@ -1,0 +1,20 @@
+background_tab_titles <-
+  c("History",
+    "Materials and Manufacturing",
+    "Dimensions")
+
+navbarMenu(
+  tab_titles[2],
+  tabPanel(
+    background_tab_titles[1],
+    includeMarkdown("www/markdown/history.Rmd")
+  ),
+  tabPanel(
+    background_tab_titles[2],
+    includeMarkdown("www/markdown/materials.Rmd")
+  ),
+  tabPanel(
+    background_tab_titles[3],
+    includeMarkdown("www/markdown/dimensions.Rmd")
+  )
+),

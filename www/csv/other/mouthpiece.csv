@@ -1,0 +1,37 @@
+﻿mouthpiece_id,make,model,refacing,type,material,tip_opening_label,tip_opening_measurement,baffle_shape,chamber,facing_c0,facing_c2,facing_c3,facing_c4,microct_tip_opening,facing_length,baffle_height_1,baffle_height_3,baffle_height_5,baffle_height_8,baffle_height_13,baffle_height_20,baffle_height_30,baffle_height_40,baffle_height_50,baffle_height_60,baffle_height_70,bore_table_angle,facing_0.05mm_L,facing_0.25mm_L,facing_0.5mm_L,facing_0.6mm_L,facing_0.75mm_L,facing_0.86mm_L,facing_1.0mm_L,facing_1.27mm_L,facing_2.0mm_L,facing_0.05mm_R,facing_0.25mm_R,facing_0.5mm_R,facing_0.6mm_R,facing_0.75mm_R,facing_0.86mm_R,facing_1.0mm_R,facing_1.27mm_R,facing_2.0mm_R
+0,Selmer ,Elkhart-NY,Brian Powell 0.100,original,HR,0.1,2.59,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0.2,Otto Link,Tone Edge Slant Sig Modern Retro,,original,HR,,,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0.3,Tenor Madness,Early Babbitt Gen 1 tip 8,,original,HR,8,,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0.4,Selmer ,C*,,original,HR,C*,,straight,small,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0.5,Vandoren,Optimum,,original,HR,TL3,,straight,small,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0.6,Selmer ,Air Flow,,original,HR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+0.7,Brillhart,HR ,Erik Greiffenhagen,original,HR,0.11,2.79,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1,J & D Hite,Premiere,,original,plastic,,2.1,straight,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+1.1,J & D Hite,Premiere,,copy,std grey,,2.18,straight,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2,Theo Wanne,Slant Sig 2,,original,HR,7*,2.78,low step,large,-0.0125632,0.0011864,-6.56E-05,-4.70E-07,2.85884,27.8485,2.77837,2.88544,3.22326,3.61302,4.55933,6.01587,9.48852,14.1666,17.137,19.7802,20.124,2.80044,,,,,,,,,,,,,,,,,,
+2.1,Theo Wanne,Slant Sig 2,,copy,std grey,,2.72,low step,large,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+3,Otto Link,Tone Edge Straight Sig Modern ,,original,HR,7*,2.68,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4,Otto Link,Tone Edge Slant Sig Modern Retro ,,original,HR,7*,2.66,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+5,JodyJazz,HR* ,,original,HR,7*,2.76,rollover,medium,-0.137294,0.00156392,-7.37E-05,-5.73E-07,2.56886,25.3023,2.51374,2.68268,2.95759,3.59128,5.01487,7.54779,11.7519,15.7897,18.7619,20.3662,21.2734,3.47002,,,,,,,,,,,,,,,,,,
+6,Vandoren,T8,,original,HR,8,2.79,rollover,medium,-0.0296839,0.00162478,-8.34E-05,-1.16E-06,2.74658,26.3833,2.73856,2.90638,3.15172,3.70525,5.1206,7.55043,11.2641,14.8266,17.8316,20.0041,21.1248,4.20962,,,,,,,,,,,,,,,,,,
+6.1,Vandoren,T8,,copy,std grey,,2.85,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+7,Otto Link,Reso Chamber,Freddie Gregory,original,HR,,2.68,rollover,medium,-0.0173985,0.000790083,-4.91E-05,1.45E-07,2.78075,28.0855,2.69679,3.14319,3.67467,4.61499,6.38957,8.95722,12.5782,16.0996,19.3774,20.1766,21.1713,4.69592,,,,,,,,,,,,,,,,,,
+7.1,Otto Link,Reso Chamber,Freddie Gregory,copy,std grey,,2.68,rollover,medium,,,,,,,3.14,3.35,4.05,5.02,6.75,9.39,,,,,,,25,18.5,15,13.5,12,11,10.25,9,4,25,18.5,15,13.5,12,11,10,8.5,4
+7.2,Otto Link,Reso Chamber,Freddie Gregory,copy,std grey,,,,,,,,,,,2.71,3.29,3.55,4.85,6.67,9.13,,,,,,,28,19,15,13.5,12,11,10.5,8.5,4,23.5,18,14.5,13.5,12,11,10,8.5,3.5
+7.3,Otto Link,Reso Chamber,Freddie Gregory,copy,std grey,,,,,,,,,,,2.68,3.25,3.85,4.73,6.97,9.25,,,,,,,28,19,15,14,13,12,11,9,4,30,19,16,14.5,13,12,11,9.5,4.5
+7.4,Otto Link,Reso Chamber,Freddie Gregory,copy,std grey,,,,,,,,,,,3.19,3.71,4.16,5.14,6.96,9.5,,,,,,,28,19,15,14,12.5,11.5,10.5,9,4,25,18,15,14,12.5,11.5,10.5,9,4
+7.5,Otto Link,Reso Chamber,Freddie Gregory,copy,std grey,,,,,,,,,,,2.13,3.1,3.72,4.78,6.64,8.97,,,,,,,31,19,15,14.5,12,11.5,10,8.5,3.5,30,19,15,14,12,11.5,10,9,3.5
+7.6,Otto Link,Reso Chamber,Freddie Gregory,copy,formlabs,,,,,,,,,,,3.25,3.77,4.41,5.4,7.02,9.37,,,,,,,36,21,16.5,15,14,13,12,10,5,37,22,17,16,14,13,12,10,5
+7.7,Otto Link,Reso Chamber,Freddie Gregory,copy,shapeways white,,,,,,,,,,,2.74,3.25,3.85,4.72,6.49,9.17,,,,,,,23,18.5,15,14,12,11.5,11,9,4,26,19,15,14,13,12,11,9,4.5
+7.8,Otto Link,Reso Chamber,Freddie Gregory,copy,shapeways purple,,,,,,,,,,,2.75,3.28,3.72,4.68,6.35,8.95,,,,,,,28,19.5,15.5,15,13,12,11,9,4,30,19.5,16,15,13,12,11,9,4
+7.9,Otto Link,Reso Chamber,Freddie Gregory,copy,shapeways black,,,,,,,,,,,2.87,3.42,3.99,4.82,6.53,8.86,,,,,,,29,20,16,15,14,13,12,10,5.5,27,20,16.5,15,14,13,12,10,5.5
+8,Otto Link,Reso Chamber JA,Joe Allard,original,HR,JA,1.98,rollover,medium,-0.0879856,0.00112117,-5.17E-05,-5.15E-07,2.05499,26.6732,2.02285,2.29853,2.69085,3.51076,5.25747,7.75259,11.2793,14.7726,18.2078,20.7986,20.9932,4.08334,,,,,,,,,,,,,,,,,,
+8.1,Otto Link,Reso Chamber JA,Joe Allard,copy,std grey,,2.2,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+9,Otto Link,Tone Edge Vintage,Erik Greiffenhagen,original,HR,,2.67,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+10,Ted Klum,Tonamax ,,original,HR,8,2.8,rollover,medium,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+11,D'Addario,Select Jazz,,original,HR,7*,2.76,rollover,medium,-0.006402,0.00211802,-0.000117872,-2.32E-06,2.81665,24.8183,2.73892,2.9687,3.17514,3.59556,4.39987,5.97633,9.48015,13.1591,16.8315,20.0694,21.1179,4.09539,,,,,,,,,,,,,,,,,,
+12,Ponzo,F50,,original,metal,,,,,,,,,,,2.88,3.03,3.44,3.92,4.7,5.78,,,,,,,24,19,15,14,12.5,11,10,8,3.5,24,18.5,15,14,12,11,9.5,8,3.5
+13,Dukoff,Spc d7 569,,original,metal,,,,,,,,,,,2.47,2.63,2.83,3.12,3.95,5.04,,,,,,,21,17,14,13,12,11,10,8,3,21,18,14,13,12,11,10,8,3
+14,Rousseau,classic 658,,original,HR,,,,,,,,,,,2,2.55,3.13,4.15,5.64,7.8,,,,,,,23,17,13,11.5,10,8.5,7.5,5,0,23.5,17.5,13,11.5,10,9,7.5,5,0
+15,Conn,g41,,original,HR,,,,,,,,,,,1.88,2.97,3.91,5.52,8.09,11.48,,,,,,,22,16,12,10.5,9,7.5,6,3,,23,17,12.5,11,9,8,6.5,3.5,na
+16,Conn,g22,,original,HR,,,,,,,,,,,1.92,2.94,4.15,5.6,8.22,11.47,,,,,,,23.5,17,12.5,11,9.5,8,7,4,,22,16,12,11,9,7.5,6,3.5,na

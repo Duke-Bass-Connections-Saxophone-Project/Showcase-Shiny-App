@@ -1,0 +1,54 @@
+#
+# This is the user-interface definition of a Shiny web application. You can
+# run the application by clicking 'Run App' above.
+#
+# Find out more about building applications with Shiny here:
+#
+#    http://shiny.rstudio.com/
+#
+
+project_title <- "The Art and Craft of Saxophone Mouthpiece Design"
+
+project_window_title <-
+  "Duke University Bass Connections - The Art and Craft of Saxophone Mouthpiece Design"
+
+header_logo_filepath <- "markdown/images/bass-connections-logo.png"
+
+header_logo_style <- "margin-top: -5px; padding-right:5px;padding-bottom:0px"
+
+module_names <- c("project", "background", "archive", "analysis")
+
+theme_filepath <- "css/bootstrap.css"
+
+page_position <- "fixed-top"
+
+tab_style_css <- ".tab-content {margin-top:.25in;margin-bottom:1in;margin-left:1in;margin-right:1in}"
+
+style_css <- "body {padding-top: 70px;}"
+
+shinyUI(
+  navbarPage(
+    title = div(
+      img(
+        src = header_logo_filepath,
+        style = header_logo_style,
+        height = 30
+      ),
+      project_title
+    ),
+    windowTitle = project_window_title,
+    projectModule(module_names[1]),
+    backgroundModule(module_names[2]),
+    archiveModuleInput(module_names[3], archive_module_names[1], archive_module_names[2]),
+    analysisModuleInput(module_names[4], analysis_module_names[1], analysis_module_names[2]),
+    theme = theme_filepath,
+    position = page_position,
+    collapsible = TRUE,
+    tags$head(tags$style(
+      HTML(
+        tab_style_css
+      )
+    )),
+    tags$style(type = "text/css", style_css)
+  )
+)

@@ -1,0 +1,14 @@
+---
+title: "Conclusions"
+output: html_document
+---
+
+# Conclusions
+
+* The current state of microCT scanning allows for very high resolution 3D digital archiving of vintage hard rubber mouthpieces. This process requires expert knowledge of the microCT scanner and software in order to produce stereolithography (stl) files suitable for printing and analysis.
+
+* 3D printed copies produced on a Formlabs 3D printer make relatively good mouthpieces that are similar to the original, but not functionally exact reproductions of the original -- at least not without further refinement.
+
+* In the recorded data set, there are clear differences between musicians that are greater than the differences between mouthpieces. As expected, the player-mouthpiece system must be considered in all analysis.
+
+* Modern reproductions and adaptations of vintage mouthpieces are also not functionally exact reproductions of vintage mouthpieces. Current 3D printed copies from this study are at least as good if not better than current commercial options at reproducing the feel and sound of a vintage mouthpiece.

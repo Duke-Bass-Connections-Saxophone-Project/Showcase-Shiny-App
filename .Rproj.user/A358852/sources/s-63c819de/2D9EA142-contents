@@ -1,0 +1,10 @@
+---
+title: "Archive Instructions"
+output: html_notebook
+---
+
+# Archive Instructions
+
+The archive allows users to compare permutations of mouthpieces, players, and pitches. Mouthpieces are denoted by name, players by unique ID numbers, and pitches by concert pitch name and frequency in Hz. Each combination displays a stereolithography file, sample audio recording, and spectral data for the given recording. The spectral graph displays the relative intensity of each frequency from 1 to 10,000 Hz.
+
+Users may notice, as we found, that the relative differences between players are greater than the differences between mouthpieces. Further research is necessary to fully characterize the differences between mouthpiece tone quality and its relation to physical features.

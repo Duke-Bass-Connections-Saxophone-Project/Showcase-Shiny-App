@@ -1,0 +1,55 @@
+module_names <- c("archive_display_1", "archive_display_2")
+
+archiveModuleInput <- function(id) {
+  tab_title <- "Archive"
+  dropdown_names <- c("Instructions", "Audiovisual Media")
+  instructions_filepath <- "www/markdown/archiveInstructions.Rmd"
+  archive_note_text <-
+    "Note: Mouthpiece scans have been displayed at 1/150th of their original resolution.
+                      Mouthpiece scans and recording do not exist for some mouthpieces and players."
+  tab_style <- "padding:10px"
+  
+  ns <- NS(id)
+  
+  navbarMenu(
+    tabTitle,
+    tabPanel(dropdown_names[1],
+             includeMarkdown(instructions_filepath)),
+    tabPanel(
+      dropdownNames[2],
+      style = tab_style,
+      archiveModuleInput(module_names[1]),
+      archiveModuleInput(module_bames[2]),
+      fluidRow(tags$i(archive_note_text))
+    )
+  )
+}
+
+archiveModuleOutput <- function(input,
+                                output,
+                                session,
+                                spectra_dir,
+                                stl_dir,
+                                spectra_table,
+                                audio_table,
+                                stl_table) {
+  callModule(
+    archiveDisplayOutput,
+    module_names[1],
+    spectra_dir,
+    stl_dir,
+    spectra_table,
+    audio_table,
+    stl_table
+  )
+  
+  callModule(
+    archiveDisplayOutput,
+    module_names[2],
+    spectra_dir,
+    stl_dir,
+    spectra_table,
+    audio_table,
+    stl_table
+  )
+}
