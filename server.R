@@ -1,26 +1,11 @@
-#
-# This is the server logic of a Shiny web application. You can run the
-# application by clicking 'Run App' above.
-#
-# Find out more about building applicatons with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
-library(shiny)
-library(tidyverse)
-
 shinyServer(function(input, output, session) {
     
     #-------------------- Read Data --------------------
     
-    csv_dir <- "www/csv"
-    wav_dir <- "www/wav"
     stl_dir <- "www/stl/"
-    
-    fit_dir <- paste0(csv_dir, "/fit")
-    other_dir <- paste0(csv_dir, "/other/")
-    spectra_dir <- paste0(csv_dir, "/spectra/")
+    fit_dir <- "www/csv/fit"
+    other_dir <- "www/csv/other/"
+    spectra_dir <- "www/csv/spectra/"
     
     mouthpiece <- paste0(other_dir, "mouthpiece.csv") %>%
         read_csv()
@@ -35,7 +20,7 @@ shinyServer(function(input, output, session) {
     stl_filenames <- list.files(stl_dir, full.names = TRUE)
     
     wav_filenames <-
-        list.files(wav_dir,
+        list.files("www/wav",
                    full.names = TRUE,
                    recursive = TRUE)
     
